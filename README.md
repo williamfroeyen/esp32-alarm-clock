@@ -1,4 +1,4 @@
-This alarm clock displays the time, temperature and air humidity. It was programmed in the Arduino IDE.
+This alarm clock displays the time, temperature and air humidity. It was programmed in the Arduino IDE. Here is a link to a showcase of the clock: https://www.youtube.com/watch?v=vGX_7jlnlnA
 
 Components: 
 Display: 0.96 inch OLED IIC GME12864-41  
