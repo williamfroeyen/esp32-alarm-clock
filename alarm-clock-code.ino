@@ -21,6 +21,8 @@ int setMinutes = 0;
 int setHours = 0;
 int setAlarmMinutes = 61;
 int setAlarmHours = 25;
+int setClockHours = 0;
+int setClockMinutes = 0;
 int setYear = 2020;
 int setMonth = 1;
 int setDay = 1;
@@ -46,7 +48,7 @@ String month;
 String tempString;
 String hydrString;
 char days[7][5] = {"sun.", "mon.", "tue.", "wed.", "thu.", "fri.", "sat."};
-int alarmToneCount = 40;
+int alarmToneCount = 20;
 
 #define dhtType DHT11
 DHT dht(dhtPin, dhtType);
@@ -76,269 +78,13 @@ void setup() {
   display.println("ALARM");
   display.display();
   delay(5000);
-
-  // SET CURRENT DATE AND TIME
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.setTextSize(1);
-  display.println("Set current");
-  display.setCursor(0, 15);
-  display.println("date and time");
-  display.setCursor(0, 30);
-  display.println("Press x to continue");
-  display.display();
-  while (digitalRead(buttonPin3) == HIGH) {
-    delay(20);
-  };
-
-  // SET CURRENT TIME AND DATE - SET YEAR
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.setTextSize(2);
-  display.println("Year:");
-  display.setCursor(0, 20);
-  display.println(setYear);
-  display.setTextSize(1);
-  display.setCursor(0, 40);
-  display.println("Press x to continue.");
-  display.setTextSize(2);
-  display.display();
-  delay(300);
-  while (digitalRead(buttonPin3) == HIGH) {
-    // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-    if (digitalRead(buttonPin2) == LOW) {
-      if (setYear < 9000) {
-        setYear = setYear + 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Year:");
-        display.setCursor(0, 20);
-        display.println(setYear);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-    if (digitalRead(buttonPin1) == LOW) {
-      if (setYear > 2000) {
-        setYear = setYear - 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Year:");
-        display.setCursor(0, 20);
-        display.println(setYear);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-  };
-
-  // SET CURRENT TIME AND DATE - SET MONTH
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println("Month:");
-  display.setCursor(0, 20);
-  display.println(setMonth);
-  display.setTextSize(1);
-  display.setCursor(0, 40);
-  display.println("Press x to continue.");
-  display.setTextSize(2);
-  display.display();
-  delay(300);
-  while (digitalRead(buttonPin3) == HIGH) {
-    // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-    if (digitalRead(buttonPin2) == LOW) {
-      if (setMonth < 12) {
-        setMonth = setMonth + 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Month:");
-        display.setCursor(0, 20);
-        display.println(setMonth);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-    if (digitalRead(buttonPin1) == LOW) {
-      if (setMonth > 1) {
-        setMonth = setMonth - 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Month:");
-        display.setCursor(0, 20);
-        display.println(setMonth);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-  };
-
-  // SET CURRENT TIME AND DATE - SET DAY
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println("Day:");
-  display.setCursor(0, 20);
-  display.println(setDay);
-  display.setTextSize(1);
-  display.setCursor(0, 40);
-  display.println("Press x to continue.");
-  display.setTextSize(2);
-  display.display();
-  delay(300);
-  while (digitalRead(buttonPin3) == HIGH) {
-    // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-    if (digitalRead(buttonPin2) == LOW) {
-      if (setDay < 31) {
-        setDay = setDay + 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Day:");
-        display.setCursor(0, 20);
-        display.println(setDay);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-    if (digitalRead(buttonPin1) == LOW) {
-      if (setDay > 1) {
-        setDay = setDay - 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Day:");
-        display.setCursor(0, 20);
-        display.println(setDay);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-  };
-
-  // SET CURRENT TIME AND DATE - SET HOURS
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setCursor(0, 0);
-  display.println("Hours:");
-  display.setCursor(0, 20);
-  display.println(setHours);
-  display.setTextSize(1);
-  display.setCursor(0, 40);
-  display.println("Press x to continue.");
-  display.setTextSize(2);
-  display.display();
-  delay(300);
-  while (digitalRead(buttonPin3) == HIGH) {
-    if (digitalRead(buttonPin2) == LOW) {
-      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-      if (setHours < 24) {
-        setHours = setHours + 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Hours:");
-        display.setCursor(0, 20);
-        display.println(setHours);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-    if (digitalRead(buttonPin1) == LOW) {
-      if (setHours > 0) {
-        setHours = setHours - 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Hours:");
-        display.setCursor(0, 20);
-        display.println(setHours);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-  };
-
-  // SET CURRENT TIME AND DATE - SET MINUTES
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.println("Minutes:");
-  display.setCursor(0, 20);
-  display.println(setMinutes);
-  display.setTextSize(1);
-  display.setCursor(0, 40);
-  display.println("Press x to continue.");
-  display.setTextSize(2);
-  display.display();
-  delay(300);
-  while (digitalRead(buttonPin3) == HIGH) {
-    // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-    if (digitalRead(buttonPin2) == LOW) {
-      if (setMinutes < 59) {
-        setMinutes = setMinutes + 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Minutes:");
-        display.setCursor(0, 20);
-        display.println(setMinutes);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-    if (digitalRead(buttonPin1) == LOW) {
-      if (setMinutes > 0) {
-        setMinutes = setMinutes - 1;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println("Minutes:");
-        display.setCursor(0, 20);
-        display.println(setMinutes);
-        display.setTextSize(1);
-        display.setCursor(0, 40);
-        display.println("Press x to continue.");
-        display.setTextSize(2);
-        display.display();
-        delay(170);
-      };
-    };
-  };
-
+  setTime(true, false);
+  rtc.adjust(DateTime(setYear, setMonth, setDay, setClockHours, setClockMinutes, 30));
   // GIVE DATA TO CLOCK, READ TEMP AND HYDRATION
-  rtc.adjust(DateTime(setYear, setMonth, setDay, setHours, setMinutes, 30));
   hydr = round(dht.readHumidity());
   temp = round(dht.readTemperature());
   delay(300);
-}
+};
 
 void loop() {
   DateTime now = rtc.now();
@@ -458,119 +204,7 @@ void loop() {
   
   // SET ALARM
   if (digitalRead(buttonPin3) == LOW) {
-    display.clearDisplay();
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println("Set hours and minutes");
-    display.setCursor(0, 15);
-    display.println("for the alarm.");
-    display.setCursor(0, 30);
-    display.println("Press x to continue.");
-    display.display();
-    delay(300);
-    alarmStopped = false;
-    while (digitalRead(buttonPin3) == HIGH) {
-      delay(20);
-    };
-
-    // SET ALARM - SET HOURS
-    setAlarmHours = 0;
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setCursor(0, 0);
-    display.println("Hours:");
-    display.setCursor(0, 20);
-    display.println(setAlarmHours);
-    display.setTextSize(1);
-    display.setCursor(0, 40);
-    display.println("Press x to continue.");
-    display.setTextSize(2);
-    display.display();
-    delay(300);
-    while (digitalRead(buttonPin3) == HIGH) {
-      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-      if (digitalRead(buttonPin2) == LOW) {
-        if (setAlarmHours < 24) {
-          setAlarmHours = setAlarmHours + 1;
-          display.clearDisplay();
-          display.setCursor(0, 0);
-          display.println("Hours:");
-          display.setCursor(0, 20);
-          display.println(setAlarmHours);
-          display.setTextSize(1);
-          display.setCursor(0, 40);
-          display.println("Press x to continue.");
-          display.setTextSize(2);
-          display.display();
-          delay(170);
-        };
-      };
-      if (digitalRead(buttonPin1) == LOW) {
-        if (setAlarmHours > 0) {
-          setAlarmHours = setAlarmHours - 1;
-          display.clearDisplay();
-          display.setCursor(0, 0);
-          display.println("Hours:");
-          display.setCursor(0, 20);
-          display.println(setAlarmHours);
-          display.setTextSize(1);
-          display.setCursor(0, 40);
-          display.println("Press x to continue.");
-          display.setTextSize(2);
-          display.display();
-          delay(170);
-        };
-      };
-    };
-
-    // SET ALARM - SET MINUTES
-    setAlarmMinutes = 0;
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.println("Minutes:");
-    display.setCursor(0, 20);
-    display.println(setAlarmMinutes);
-    display.setTextSize(1);
-    display.setCursor(0, 40);
-    display.println("Press x to continue.");
-    display.setTextSize(2);
-    display.display();
-    delay(300);
-    while (digitalRead(buttonPin3) == HIGH) {
-      if (digitalRead(buttonPin2) == LOW) {
-        // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
-        if (setAlarmMinutes < 59) {
-          setAlarmMinutes = setAlarmMinutes + 1;
-          display.clearDisplay();
-          display.setCursor(0, 0);
-          display.println("Minutes:");
-          display.setCursor(0, 20);
-          display.println(setAlarmMinutes);
-          display.setTextSize(1);
-          display.setCursor(0, 40);
-          display.println("Press x to continue.");
-          display.setTextSize(2);
-          display.display();
-          delay(170);
-        };
-      };
-      if (digitalRead(buttonPin1) == LOW) {
-        if (setAlarmMinutes > 0) {
-          setAlarmMinutes = setAlarmMinutes - 1;
-          display.clearDisplay();
-          display.setCursor(0, 0);
-          display.println("Minutes:");
-          display.setCursor(0, 20);
-          display.println(setAlarmMinutes);
-          display.setTextSize(1);
-          display.setCursor(0, 40);
-          display.println("Press x to continue.");
-          display.setTextSize(2);
-          display.display();
-          delay(170);
-        };
-      };
-    };
+    setTime(false, true);
     delay(300);
   };
 
@@ -618,5 +252,295 @@ void loop() {
   // ENSURE ALARM REPEATS NEXT DAY IF STOPPED
   if (setAlarmHours != now.hour() && setAlarmMinutes != now.minute() && alarmStopped == true) {
     alarmStopped = false;
+  };
+};
+
+void setTime(bool setClock, bool setAlarmClock) {
+  Serial.println(setClock);
+  setYear = 2020;
+  setMonth = 1;
+  setDay = 1;
+  setHours = 0;
+  setMinutes = 0;
+  if (setClock) {
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.setTextSize(1);
+    display.println("Set current");
+    display.setCursor(0, 15);
+    display.println("date and time");
+    display.setCursor(0, 30);
+    display.println("Press x to continue");
+    display.display();
+    while (digitalRead(buttonPin3) == HIGH) {
+      delay(20);
+    };
+  } else if (setAlarmClock) {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setCursor(0, 0);
+    display.println("Set hours and minutes");
+    display.setCursor(0, 15);
+    display.println("for the alarm.");
+    display.setCursor(0, 30);
+    display.println("Press x to continue.");
+    display.display();
+    delay(300);
+    alarmStopped = false;
+    while (digitalRead(buttonPin3) == HIGH) {
+      delay(20);
+    };
+  };
+
+  if (setClock) {
+    // SET CURRENT DATE - SET YEAR
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.setTextSize(2);
+    display.println("Year:");
+    display.setCursor(0, 20);
+    display.println(setYear);
+    display.setTextSize(1);
+    display.setCursor(0, 40);
+    display.println("Press x to continue.");
+    display.setTextSize(2);
+    display.display();
+    delay(300);
+    while (digitalRead(buttonPin3) == HIGH) {
+      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
+      if (digitalRead(buttonPin2) == LOW) {
+        if (setYear < 9000) {
+          setYear = setYear + 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Year:");
+          display.setCursor(0, 20);
+          display.println(setYear);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+      if (digitalRead(buttonPin1) == LOW) {
+        if (setYear > 2000) {
+          setYear = setYear - 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Year:");
+          display.setCursor(0, 20);
+          display.println(setYear);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+    };
+
+    // SET CURRENT DATE - SET MONTH
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.println("Month:");
+    display.setCursor(0, 20);
+    display.println(setMonth);
+    display.setTextSize(1);
+    display.setCursor(0, 40);
+    display.println("Press x to continue.");
+    display.setTextSize(2);
+    display.display();
+    delay(300);
+    while (digitalRead(buttonPin3) == HIGH) {
+      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
+      if (digitalRead(buttonPin2) == LOW) {
+        if (setMonth < 12) {
+          setMonth = setMonth + 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Month:");
+          display.setCursor(0, 20);
+          display.println(setMonth);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+      if (digitalRead(buttonPin1) == LOW) {
+        if (setMonth > 1) {
+          setMonth = setMonth - 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Month:");
+          display.setCursor(0, 20);
+          display.println(setMonth);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+    };
+
+    // SET CURRENT DATE - SET DAY
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.println("Day:");
+    display.setCursor(0, 20);
+    display.println(setDay);
+    display.setTextSize(1);
+    display.setCursor(0, 40);
+    display.println("Press x to continue.");
+    display.setTextSize(2);
+    display.display();
+    delay(300);
+    while (digitalRead(buttonPin3) == HIGH) {
+      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
+      if (digitalRead(buttonPin2) == LOW) {
+        if (setDay < 31) {
+          setDay = setDay + 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Day:");
+          display.setCursor(0, 20);
+          display.println(setDay);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+      if (digitalRead(buttonPin1) == LOW) {
+        if (setDay > 1) {
+          setDay = setDay - 1;
+          display.clearDisplay();
+          display.setCursor(0, 0);
+          display.println("Day:");
+          display.setCursor(0, 20);
+          display.println(setDay);
+          display.setTextSize(1);
+          display.setCursor(0, 40);
+          display.println("Press x to continue.");
+          display.setTextSize(2);
+          display.display();
+          delay(170);
+        };
+      };
+    };
+  };
+
+  // SET CLOCK TIME OR ALARM TIME - SET HOURS
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setCursor(0, 0);
+  display.println("Hours:");
+  display.setCursor(0, 20);
+  display.println(setHours);
+  display.setTextSize(1);
+  display.setCursor(0, 40);
+  display.println("Press x to continue.");
+  display.setTextSize(2);
+  display.display();
+  delay(300);
+  while (digitalRead(buttonPin3) == HIGH) {
+    if (digitalRead(buttonPin2) == LOW) {
+      // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
+      if (setHours < 24) {
+        setHours = setHours + 1;
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("Hours:");
+        display.setCursor(0, 20);
+        display.println(setHours);
+        display.setTextSize(1);
+        display.setCursor(0, 40);
+        display.println("Press x to continue.");
+        display.setTextSize(2);
+        display.display();
+        delay(170);
+      };
+    };
+    if (digitalRead(buttonPin1) == LOW) {
+      if (setHours > 0) {
+        setHours = setHours - 1;
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("Hours:");
+        display.setCursor(0, 20);
+        display.println(setHours);
+        display.setTextSize(1);
+        display.setCursor(0, 40);
+        display.println("Press x to continue.");
+        display.setTextSize(2);
+        display.display();
+        delay(170);
+      };
+    };
+  };
+
+  // SET CLOCK TIME OR ALARM TIME - SET MINUTES
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.println("Minutes:");
+  display.setCursor(0, 20);
+  display.println(setMinutes);
+  display.setTextSize(1);
+  display.setCursor(0, 40);
+  display.println("Press x to continue.");
+  display.setTextSize(2);
+  display.display();
+  delay(300);
+  while (digitalRead(buttonPin3) == HIGH) {
+    // ADJUST THE TIME UP AND DOWN - LIMIT MAX MIN
+    if (digitalRead(buttonPin2) == LOW) {
+      if (setMinutes < 59) {
+        setMinutes = setMinutes + 1;
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("Minutes:");
+        display.setCursor(0, 20);
+        display.println(setMinutes);
+        display.setTextSize(1);
+        display.setCursor(0, 40);
+        display.println("Press x to continue.");
+        display.setTextSize(2);
+        display.display();
+        delay(170);
+      };
+    };
+    if (digitalRead(buttonPin1) == LOW) {
+      if (setMinutes > 0) {
+        setMinutes = setMinutes - 1;
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("Minutes:");
+        display.setCursor(0, 20);
+        display.println(setMinutes);
+        display.setTextSize(1);
+        display.setCursor(0, 40);
+        display.println("Press x to continue.");
+        display.setTextSize(2);
+        display.display();
+        delay(170);
+      };
+    };
+  };
+
+  if (setClock) {
+    setClockHours = setHours;
+    setClockMinutes = setMinutes;
+  } else if (setAlarmClock) {
+    setAlarmHours = setHours;
+    setAlarmMinutes = setMinutes;
   };
 };
